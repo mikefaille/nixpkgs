@@ -13726,6 +13726,12 @@ in
     go = go_1_6;
   };
 
+
+  minikube = callPackage ../applications/networking/cluster/minikube {
+    # go = go_1_6;
+  };
+
+
   lame = callPackage ../development/libraries/lame { };
 
   larswm = callPackage ../applications/window-managers/larswm { };
