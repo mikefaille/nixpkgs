@@ -5676,11 +5676,11 @@ in modules // {
 
   docker = buildPythonPackage rec {
     name = "docker-py-${version}";
-    version = "1.7.2";
+    version = "1.9.0";
 
     src = pkgs.fetchurl {
       url = "mirror://pypi/d/docker-py/${name}.tar.gz";
-      sha256 = "0k6hm3vmqh1d3wr9rryyif5n4rzvcffdlb1k4jvzp7g4996d3ccm";
+      sha256 = "6dc6b914a745786d97817bf35bfc1559834c08517c119f846acdfda9cc7f6d7e";
     };
 
     propagatedBuildInputs = with self; [ six requests2 websocket_client ];
@@ -10214,13 +10214,13 @@ in modules // {
   };
 
   docker_compose = buildPythonPackage rec {
-    version = "1.6.2";
+    version = "1.8.0";
     name = "docker-compose-${version}";
     namePrefix = "";
 
     src = pkgs.fetchurl {
       url = "mirror://pypi/d/docker-compose/${name}.tar.gz";
-      sha256 = "10i4032d99hm5nj1p74pcad9i3gz1h5x3096byklncgssfyjqki6";
+      sha256 = "65f46b2ac836918c68306646206612ecadbb0cf17fae1557f6d565554747a2a9";
     };
 
     # lots of networking and other fails
