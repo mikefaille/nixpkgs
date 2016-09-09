@@ -12,19 +12,14 @@ stdenv.mkDerivation rec {
     sha256 = "76b341aa377c274c7147e203483f117ef01151a8e33bb232e29872ad20f6effc";
   };
 
-  phases = "installPhase";
-  # addCVars  addToSearchPath
-  installPhase = ''
-  mkdir -p "$out/bin/"
-  cp -R $src "$out/bin/minikube"
-  chmod +x "$out/bin/minikube"
-  '';
-  # src = fetchFromGitHub {
-  #   owner = "kubernetes";
-  #   repo = "minikube";
-  #   rev = "v${version}";
-  #   sha256 = "06224ca9ghf6axs5r318zmwv8f2j3gx141rqhgqmgdy8pyyji19k";
-  # };
+
+
+  src = fetchFromGitHub {
+    owner = "kubernetes";
+    repo = "minikube";
+    rev = "v${version}";
+    sha256 = "06224ca9ghf6axs5r318zmwv8f2j3gx141rqhgqmgdy8pyyji19k";
+  };
 
 
 
