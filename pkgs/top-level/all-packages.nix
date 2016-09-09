@@ -285,7 +285,7 @@ in
       inherit kernel rootModules allowMissing;
     };
 
-  nixBufferBuilders = import ../build-support/emacs/buffer.nix { inherit (pkgs) runCommand; };
+  nixBufferBuilders = import ../build-support/emacs/buffer.nix { inherit (pkgs) lib writeText; };
 
   pathsFromGraph = ../build-support/kernel/paths-from-graph.pl;
 
@@ -904,7 +904,9 @@ in
 
   mstflint = callPackage ../tools/misc/mstflint { };
 
-  mcelog = callPackage ../os-specific/linux/mcelog { };
+  mcelog = callPackage ../os-specific/linux/mcelog {
+    utillinux = utillinuxMinimal;
+  };
 
   apparix = callPackage ../tools/misc/apparix { };
 
@@ -4424,7 +4426,7 @@ in
     coq = coq_8_5;
   });
 
-  cryptol = self.haskell.packages.lts.cryptol;
+  cryptol = haskellPackages.cryptol;
 
   devpi-client = callPackage ../development/tools/devpi-client {};
 
@@ -4772,12 +4774,10 @@ in
 
   icedtea7_web = callPackage ../development/compilers/icedtea-web {
     jdk = jdk7;
-    xulrunner = firefox-unwrapped;
   };
 
   icedtea8_web = callPackage ../development/compilers/icedtea-web {
     jdk = jdk8;
-    xulrunner = firefox-unwrapped;
   };
 
   icedtea_web = self.icedtea8_web;
@@ -4972,6 +4972,11 @@ in
   };
 
   mono44 = lowPrio (callPackage ../development/compilers/mono/4.4.nix {
+    inherit (darwin) libobjc;
+    inherit (darwin.apple_sdk.frameworks) Foundation;
+  });
+
+  mono46 = lowPrio (callPackage ../development/compilers/mono/4.6.nix {
     inherit (darwin) libobjc;
     inherit (darwin.apple_sdk.frameworks) Foundation;
   });
@@ -5861,6 +5866,7 @@ in
   };
   octaveFull = (lowPrio (callPackage ../development/interpreters/octave {
     qt = qt4;
+    overridePlatforms = ["x86_64-linux" "x86_64-darwin"];
   }));
 
   ocropus = callPackage ../applications/misc/ocropus { };
@@ -6026,11 +6032,6 @@ in
   tcl-8_6 = callPackage ../development/interpreters/tcl/8.6.nix { };
 
   wasm = callPackage ../development/interpreters/wasm { };
-
-  xulrunner = callPackage ../development/interpreters/xulrunner {
-    inherit (gnome) libIDL;
-    inherit (pythonPackages) pysqlite;
-  };
 
 
   ### DEVELOPMENT / MISC
@@ -10704,8 +10705,6 @@ in
 
   slurm-llnl-full = appendToName "full" (callPackage ../servers/computing/slurm { });
 
-  tomcat5 = callPackage ../servers/http/tomcat/5.0.nix { };
-
   tomcat6 = callPackage ../servers/http/tomcat/6.0.nix { };
 
   tomcat7 = callPackage ../servers/http/tomcat/7.0.nix { };
@@ -12651,7 +12650,7 @@ in
 
   d4x = callPackage ../applications/misc/d4x { };
 
-  darcs = haskell.lib.overrideCabal self.haskell.packages.lts.darcs (drv: {
+  darcs = haskell.lib.overrideCabal haskellPackages.darcs (drv: {
     configureFlags = (stdenv.lib.remove "-flibrary" drv.configureFlags or []) ++ ["-f-library"];
     enableSharedExecutables = false;
     enableSharedLibraries = false;
@@ -13360,6 +13359,7 @@ in
 
   gnash = callPackage ../applications/video/gnash {
     inherit (gnome) gtkglext;
+    xulrunner = firefox-unwrapped;
   };
 
   gnome_mplayer = callPackage ../applications/video/gnome-mplayer {
@@ -14256,7 +14256,7 @@ in
 
   omxplayer = callPackage ../applications/video/omxplayer { };
 
-  oneteam = callPackage ../applications/networking/instant-messengers/oneteam {};
+  oneteam = callPackage ../applications/networking/instant-messengers/oneteam { };
 
   openbox = callPackage ../applications/window-managers/openbox { };
 
@@ -14313,7 +14313,6 @@ in
   pekwm = callPackage ../applications/window-managers/pekwm { };
 
   pencil = callPackage ../applications/graphics/pencil {
-    xulrunner = firefox-unwrapped;
   };
 
   perseus = callPackage ../applications/science/math/perseus {};
@@ -14911,7 +14910,11 @@ in
   teamspeak_client = qt55.callPackage ../applications/networking/instant-messengers/teamspeak/client.nix { };
   teamspeak_server = callPackage ../applications/networking/instant-messengers/teamspeak/server.nix { };
 
-  taskjuggler = callPackage ../applications/misc/taskjuggler { };
+  taskjuggler-2 = callPackage ../applications/misc/taskjuggler/2.x { };
+
+  taskjuggler = callPackage ../applications/misc/taskjuggler/3.x {
+    ruby = ruby_2_0;
+  };
 
   tasknc = callPackage ../applications/misc/tasknc { };
 
@@ -17639,4 +17642,6 @@ in
   zuki-themes = callPackage ../misc/themes/zuki { };
 
   zoom-us = qt55.callPackage ../applications/networking/instant-messengers/zoom-us {};
+
+  xulrunner = firefox-unwrapped;
 }

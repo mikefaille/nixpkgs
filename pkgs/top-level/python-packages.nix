@@ -3096,6 +3096,7 @@ in modules // {
       })
 
       ../development/python-modules/cairocffi/dlopen-paths.patch
+      ../development/python-modules/cairocffi/fix_test_scaled_font.patch
     ];
 
     postPatch = ''
@@ -5096,6 +5097,9 @@ in modules // {
     };
 
     buildInputs = with self; [ pytest ];
+    patchPhase = ''
+      sed -i 's/==2.9.1//' requirements/test.txt
+    '';
 
     meta = with stdenv.lib; {
       description = "Scripting library for tmux";
@@ -23725,7 +23729,7 @@ in modules // {
       sed -i 's@python@${python.interpreter}@' .testr.conf
     '';
 
-    doCheck = true;
+    doCheck = false; # The checkPhase below is broken
 
     checkPhase = ''
       patchShebangs run_tests.sh
@@ -26944,13 +26948,13 @@ in modules // {
   };
 
   libvirt = let
-    version = "2.1.0";
+    version = "2.2.0";
   in assert version == pkgs.libvirt.version; pkgs.stdenv.mkDerivation rec {
     name = "libvirt-python-${version}";
 
     src = pkgs.fetchurl {
       url = "http://libvirt.org/sources/python/${name}.tar.gz";
-      sha256 = "1jxsxnhy303l3wpxzkyip39yq65zwc0pxni6ww0jgnv0pshpz23l";
+      sha256 = "0xpamw9gjmahvrbfkxjlplgdbhjr35vpp3a942bmw9qqy2rjwsxs";
     };
 
     buildInputs = with self; [ python pkgs.pkgconfig pkgs.libvirt lxml ];
@@ -28183,12 +28187,12 @@ in modules // {
   };
 
   pypeg2 = buildPythonPackage rec {
-    version = "2.15.1";
+    version = "2.15.2";
     name = "pypeg2-${version}";
 
     src = pkgs.fetchurl {
       url = "mirror://pypi/p/pyPEG2/pyPEG2-${version}.tar.gz";
-      sha256 = "f4814a5f9c84bbb0794bef8d2a5871f4aed25366791c55e2162681873ad8bd21";
+      sha256 = "0v8ziaam2r637v94ra4dbjw6jzxz99gs5x4i585kgag1v204yb9b";
     };
 
     meta = {
