@@ -12720,6 +12720,9 @@ in
 
   docker-gc = callPackage ../applications/virtualization/docker/gc.nix { };
 
+  docker-machine-driver-kvm = callPackage ../applications/networking/cluster/docker-machine-driver-kvm { };
+
+
   doodle = callPackage ../applications/search/doodle { };
 
   drumgizmo = callPackage ../applications/audio/drumgizmo { };
