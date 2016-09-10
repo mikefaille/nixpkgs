@@ -1,4 +1,4 @@
-{ stdenv,  buildGoPackage, fetchFromGitHub,  git, libvirt }:
+{ stdenv,  buildGoPackage, fetchFromGitHub, libvirt, kvm, docker-machine }:
 
 buildGoPackage rec {
   rev = "5f4c9b13e14c95d90e576ba6388d47dd5b14be63";
