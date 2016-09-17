@@ -12792,6 +12792,8 @@ in
 
   docker-machine = callPackage ../applications/networking/cluster/docker-machine { };
 
+  docker-machine-driver-kvm = callPackage ../applications/networking/cluster/docker-machine-driver-kvm { };
+
   doodle = callPackage ../applications/search/doodle { };
 
   drumgizmo = callPackage ../applications/audio/drumgizmo { };
